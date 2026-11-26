@@ -61,7 +61,118 @@ def print_quality_report(issues):
 # FUNCTION 2: PRINT ADVANCED SCORING REPORT
 # ==========================================
 
+
 def print_scoring_report(scoring_report):
+
+    dimension_scores = scoring_report["dimension_scores"]
+    overall_score = scoring_report["overall_score"]
+    quality_rating = scoring_report["quality_rating"]
+    dimension_weights = scoring_report["dimension_weights"]
+
+    print("\n")
+    print("=" * 60)
+    print("       DATAGUARD AI - ADVANCED QUALITY SCORE")
+    print("=" * 60)
+
+    # Display dimension scores
+    print("\nDIMENSION SCORES")
+
+    for dimension, score in dimension_scores.items():
+
+        weight = dimension_weights[dimension] * 100
+
+        print(
+            f"{dimension}: {score}/100 "
+            f"(Weight: {weight:.0f}%)"
+        )
+
+    print("\nOverall Quality Score:", overall_score, "/100")
+    print("Quality Rating:", quality_rating)
+
+    # Display issue explanations
+    print("\nISSUE IMPACT EXPLANATIONS")
+
+    explanations = scoring_report["issue_explanations"]
+
+    if not explanations:
+
+        print("No quality issues detected.")
+
+    else:
+
+        for number, explanation in enumerate(explanations, start=1):
+
+            print("\n" + "-" * 55)
+            print("Issue:", number)
+            print("Rule:", explanation["rule"])
+            print("Category:", explanation["category"])
+            print("Column:", explanation["column"])
+            print("Severity:", explanation["severity"])
+
+            print(
+                "Affected Records:",
+                explanation["affected_records"]
+            )
+
+            print(
+                "Affected Percentage:",
+                explanation["affected_percentage"],
+                "%"
+            )
+
+            print("Explanation:", explanation["explanation"])
+
+            print(
+                "Recommendation:",
+                explanation["recommendation"]
+            )
+
+    # Display column impact
+    print("\nCOLUMN-LEVEL IMPACT")
+
+    column_impact = scoring_report["column_impact"]
+
+    if not column_impact:
+
+        print("No column-level issues found.")
+
+    else:
+
+        for column, details in column_impact.items():
+
+            print("\nColumn:", column)
+            print("Issue Count:", details["issue_count"])
+            print("Affected Records:", details["affected_records"])
+
+            print(
+                "Affected Percentage:",
+                details["affected_percentage"],
+                "%"
+            )
+
+    # Display recommendations
+    print("\nACTIONABLE RECOMMENDATIONS")
+
+    recommendations = scoring_report["recommendations"]
+
+    if not recommendations:
+
+        print("No recommendations required.")
+
+    else:
+
+        for number, recommendation in enumerate(
+            recommendations, start=1
+        ):
+
+            print(
+                f"{number}.",
+                recommendation["recommendation"]
+            )
+
+    print("\n" + "=" * 60)
+    print("ADAPTIVE QUALITY SCORING COMPLETED")
+    print("=" * 60)
 
     dimension_scores = scoring_report["dimension_scores"]
 
@@ -120,7 +231,6 @@ def print_scoring_report(scoring_report):
                 "%"
             )
 
-            print("Penalty:", explanation["penalty"])
 
             print("Explanation:", explanation["explanation"])
 

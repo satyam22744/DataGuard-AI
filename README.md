@@ -68,12 +68,23 @@ DataGuard-AI/
 - Overall quality rating
 - Issue impact explanations
 
+### 4. Adaptive Scoring & Explainability
+
+- Unique affected-record counting within quality dimensions
+- Severity-aware adaptive scoring
+- Percentage-based impact calculation
+- Column-level quality impact analysis
+- Explainable issue reports
+- Actionable quality recommendations
+- Configurable scoring weights
+
 ## Current Development Status
 
 - [x] Dataset Profiling Engine
 - [x] Data Quality Detection Engine
 - [x] Initial Advanced Scoring Engine
-- [ ] Adaptive Scoring Improvements
+- [x] Data Quality Detection Engine
+- [x] Adaptive Scoring Improvements
 - [ ] Automated Data Cleaning
 - [ ] Anomaly Detection
 - [ ] Data Drift Detection
