@@ -122,7 +122,68 @@ def collect_dimension_impact(issues, category):
 
 # 4. CALCULATE ADAPTIVE DIMENSION PENALTY
 
+
 def calculate_dimension_impact(issues, category, total_rows):
+
+    impact_data = collect_dimension_impact(
+        issues, category
+    )
+
+    # No issues means a perfect score
+    if impact_data["matching_issues"] == 0:
+
+        impact_data.update({
+            "category": category,
+            "affected_percentage": 0,
+            "base_penalty": 0,
+            "impact_multiplier": 0,
+            "final_penalty": 0,
+            "score": 100
+        })
+
+        return impact_data
+
+    affected_records = impact_data["affected_records"]
+
+    if total_rows <= 0:
+        affected_percentage = 0
+
+    else:
+        affected_percentage = min(
+            100,
+            (affected_records / total_rows) * 100
+        )
+
+    severity = impact_data["highest_severity"]
+
+    base_penalty = SEVERITY_PENALTIES.get(
+        severity, 0
+    )
+
+    impact_multiplier = get_impact_multiplier(
+        affected_percentage
+    )
+
+    final_penalty = base_penalty * impact_multiplier
+
+    dimension_score = max(
+        0,
+        100 - final_penalty
+    )
+
+    impact_data.update({
+        "category": category,
+        "affected_percentage": round(
+            affected_percentage, 2
+        ),
+        "base_penalty": base_penalty,
+        "impact_multiplier": impact_multiplier,
+        "final_penalty": round(final_penalty, 2),
+        "score": round(dimension_score, 2)
+    })
+
+    return impact_data
+
 
     impact_data = collect_dimension_impact(
         issues, category
